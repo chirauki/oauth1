@@ -2,10 +2,10 @@ package oauth1
 
 import (
 	"bytes"
-	"crypto/rand"
-	"encoding/base64"
+	// "crypto/rand"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"sort"
@@ -129,7 +129,7 @@ const nonceLength = 20
 
 var alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func nonce() string {
+func (a *auther) nonce() string {
 	nonce := make([]byte, nonceLength)
 	for i := 0; i < nonceLength; i++ {
 		nonce[i] = alphanumeric[rand.Intn(len(alphanumeric))]
