@@ -125,15 +125,27 @@ func (a *auther) commonOAuthParams() map[string]string {
 	}
 }
 
-// Returns a base64 encoded random 32 byte string.
-func (a *auther) nonce() string {
-	if a.noncer != nil {
-		return a.noncer.Nonce()
+const nonceLength = 20
+
+var alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+func nonce() string {
+	nonce := make([]byte, nonceLength)
+	for i := 0; i < nonceLength; i++ {
+		nonce[i] = alphanumeric[rand.Intn(len(alphanumeric))]
 	}
-	b := make([]byte, 32)
-	rand.Read(b)
-	return base64.StdEncoding.EncodeToString(b)
+	return string(nonce)
 }
+
+// Returns a base64 encoded random 32 byte string.
+// func (a *auther) nonce() string {
+// 	if a.noncer != nil {
+// 		return a.noncer.Nonce()
+// 	}
+// 	b := make([]byte, 32)
+// 	rand.Read(b)
+// 	return base64.StdEncoding.EncodeToString(b)
+// }
 
 // Returns the Unix epoch seconds.
 func (a *auther) epoch() int64 {
